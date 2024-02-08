@@ -1,34 +1,37 @@
 package com.rijai.users.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity(name="users")
+@Entity
+@Table(name="account")
 public class Account {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
+    private long id;
     private String username;
-    private String email;
+    private String password;
+    private String privilege;
 
     public Account() {
+
     }
 
-    public Account(String username, String email) {
+    public Account(long id, String username, String password, String privilege) {
+        this.id = id;
+
         this.username = username;
-        this.email = email;
+        this.password = password;
+        this.privilege = privilege;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -40,21 +43,20 @@ public class Account {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.username);
-        hash = 79 * hash + + Objects.hashCode(this.email);
-        return hash;
+    public String getPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(String privilege) {
+        this.privilege = privilege;
     }
 
     @Override
@@ -69,23 +71,36 @@ public class Account {
             return false;
         }
         final Account other = (Account) obj;
-        if (this.email != other.email) {
+        if (!Objects.equals(this.username, other.username)) {
             return false;
         }
-        if (!Objects.equals(this.username, other.username)) {
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.privilege, other.privilege)) {
             return false;
         }
         return Objects.equals(this.id, other.id);
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.username);
+        hash = 79 * hash + Objects.hashCode(this.password);
+        hash = 79 * hash + Objects.hashCode(this.privilege);
+        return hash;
+    }
+
+    @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
+        final StringBuilder sb = new StringBuilder("Account{");
         sb.append("id=").append(id);
         sb.append(", username='").append(username).append('\'');
-        sb.append(", email=").append(email);
+        sb.append(", password=").append(password).append('\'');
+        sb.append(", privilege=").append(privilege);
         sb.append('}');
         return sb.toString();
-
     }
 }
